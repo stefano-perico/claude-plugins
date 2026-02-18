@@ -5,8 +5,8 @@
     "name": "Stefano Perico"
   },
   "metadata": {
-    "description": "Skills et agents pour Symfony, Git, Azure DevOps et développement PHP",
-    "version": "1.1.0",
+    "description": "Skills et agents pour Symfony, Git, Azure DevOps, sécurité et développement PHP",
+    "version": "1.2.0",
     "pluginRoot": "./plugins"
   },
   "plugins": [
