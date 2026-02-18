@@ -1,7 +1,0 @@
-{
-  "name": "symfony-process-doc",
-  "description": "Documentation technique de processus Symfony avec diagrammes Mermaid",
-  "version": "1.0.0",
-  "author": { "name": "Stefano Perico" },
-  "license": "MIT"
-}

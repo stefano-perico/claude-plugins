@@ -25,13 +25,6 @@
       "tags": ["symfony", "php", "solid", "audit", "refactoring"]
     },
     {
-      "name": "symfony-process-doc",
-      "source": "./plugins/symfony-process-doc",
-      "description": "Documentation technique de processus Symfony avec diagrammes Mermaid",
-      "category": "productivity",
-      "tags": ["symfony", "documentation", "mermaid", "architecture"]
-    },
-    {
       "name": "git-workflow",
       "source": "./plugins/git-workflow",
       "description": "Workflow Git avec Conventional Commits, branches et Pull Requests",
