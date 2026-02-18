@@ -1,0 +1,56 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "stefano-plugins",
+  "owner": {
+    "name": "Stefano Perico"
+  },
+  "metadata": {
+    "description": "Skills et agents pour Symfony, Git, Azure DevOps et développement PHP",
+    "version": "1.0.0",
+    "pluginRoot": "./plugins"
+  },
+  "plugins": [
+    {
+      "name": "symfony-dev-team",
+      "source": "./plugins/symfony-dev-team",
+      "description": "Team d'agents pour développer des features Symfony en architecture hexagonale + CQRS",
+      "category": "development",
+      "tags": ["symfony", "php", "hexagonal", "cqrs", "agent-team"]
+    },
+    {
+      "name": "symfony-quality",
+      "source": "./plugins/symfony-quality",
+      "description": "Audit SOLID et corrections automatisées pour code Symfony",
+      "category": "development",
+      "tags": ["symfony", "php", "solid", "audit", "refactoring"]
+    },
+    {
+      "name": "symfony-process-doc",
+      "source": "./plugins/symfony-process-doc",
+      "description": "Documentation technique de processus Symfony avec diagrammes Mermaid",
+      "category": "productivity",
+      "tags": ["symfony", "documentation", "mermaid", "architecture"]
+    },
+    {
+      "name": "git-workflow",
+      "source": "./plugins/git-workflow",
+      "description": "Workflow Git avec Conventional Commits, branches et Pull Requests",
+      "category": "productivity",
+      "tags": ["git", "conventional-commits", "workflow"]
+    },
+    {
+      "name": "azure-devops",
+      "source": "./plugins/azure-devops",
+      "description": "Gestion des work items Azure DevOps via CLI",
+      "category": "productivity",
+      "tags": ["azure", "devops", "work-items"]
+    },
+    {
+      "name": "skill-creator",
+      "source": "./plugins/skill-creator",
+      "description": "Guide complet pour créer, tester et distribuer des skills Claude Code",
+      "category": "development",
+      "tags": ["skills", "authoring", "distribution"]
+    }
+  ]
+}

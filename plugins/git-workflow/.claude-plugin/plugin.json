@@ -1,0 +1,7 @@
+{
+  "name": "git-workflow",
+  "description": "Workflow Git avec Conventional Commits, branches et Pull Requests",
+  "version": "1.0.0",
+  "author": { "name": "Stefano Perico" },
+  "license": "MIT"
+}

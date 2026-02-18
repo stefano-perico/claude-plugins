@@ -1,0 +1,7 @@
+{
+  "name": "azure-devops",
+  "description": "Gestion des work items Azure DevOps via CLI",
+  "version": "1.0.0",
+  "author": { "name": "Stefano Perico" },
+  "license": "MIT"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "symfony-dev-team",
+  "description": "Team d'agents pour développer des features Symfony en architecture hexagonale + CQRS",
+  "version": "1.0.0",
+  "author": { "name": "Stefano Perico" },
+  "license": "MIT"
+}
