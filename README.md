@@ -11,6 +11,7 @@ Skills et agents Claude Code pour Symfony, Git, Azure DevOps et developpement PH
 | **git-workflow** | Workflow Git avec Conventional Commits, branches et Pull Requests | Productivity |
 | **azure-devops** | Gestion des work items Azure DevOps via CLI | Productivity |
 | **skill-creator** | Guide complet pour creer, tester et distribuer des skills Claude Code | Development |
+| **aikido-security** | Scan de securite et resolution d'issues via Aikido Security | Security |
 
 ## Installation
 
@@ -28,6 +29,7 @@ Skills et agents Claude Code pour Symfony, Git, Azure DevOps et developpement PH
 /plugin install git-workflow@stefano-plugins
 /plugin install azure-devops@stefano-plugins
 /plugin install skill-creator@stefano-plugins
+/plugin install aikido-security@stefano-plugins
 ```
 
 ### 3. Utiliser les skills
@@ -38,6 +40,7 @@ Skills et agents Claude Code pour Symfony, Git, Azure DevOps et developpement PH
 /git-workflow             # Gestion Git avec Conventional Commits
 /azure-devops             # Gestion des work items Azure DevOps
 /skill-creator            # Guide de creation de skills
+/aikido                   # Scan de securite et fix via Aikido Security
 ```
 
 ## Prerequis
@@ -49,6 +52,7 @@ Skills et agents Claude Code pour Symfony, Git, Azure DevOps et developpement PH
 | git-workflow | Git |
 | azure-devops | Azure CLI (`az`) avec extension `azure-devops` |
 | skill-creator | Claude Code |
+| aikido-security | `AIKIDO_CLIENT_ID` + `AIKIDO_CLIENT_SECRET` (API), `AIKIDO_API_KEY` (MCP, optionnel) |
 
 ## Structure
 
