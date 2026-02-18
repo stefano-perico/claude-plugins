@@ -1,7 +1,7 @@
 {
   "name": "aikido-security",
   "description": "Scan de sécurité et résolution d'issues via Aikido Security",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": { "name": "Stefano Perico" },
   "license": "MIT"
 }
