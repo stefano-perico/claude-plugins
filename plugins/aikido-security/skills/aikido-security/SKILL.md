@@ -45,7 +45,7 @@ test -n "$AIKIDO_API_KEY" && echo "MCP OK" || echo "MCP non configuré (optionne
 
 Si les variables sont absentes, guider l'utilisateur :
 
-1. **API REST** : Aller sur https://app.aikido.dev → Settings → Integrations → API → Créer un client OAuth2
+1. **API REST** : Aller sur https://app.aikido.dev → Settings → Integrations → scroll en bas → **Public REST API** → Manage → **Add Client** (nécessite rôle workspace admin)
 2. **MCP** : Voir `references/mcp-setup.md` pour l'installation
 
 ## 2. Authentification API
