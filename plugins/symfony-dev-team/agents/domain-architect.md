@@ -24,6 +24,7 @@ Quand on te confie une feature :
 
 Conventions du projet :
 
+- **Attributs PHP 8 obligatoires** : utiliser `#[ORM\Entity]`, `#[ORM\Column]`, `#[ORM\Id]`, `#[ORM\OneToMany]`, etc. pour le mapping Doctrine — jamais de YAML/XML. Idem pour la validation : `#[Assert\*]` directement sur les propriétés.
 - Les entités Doctrine dans le Domain sont acceptées (choix pragmatique, pas de DTO supplémentaire)
 - Les interfaces de repository suivent un pattern fluent (chaînable) : `findBy()->withStatus()->getResult()`
 - Les value objects sont immutables (`readonly class` ou propriétés `readonly`)

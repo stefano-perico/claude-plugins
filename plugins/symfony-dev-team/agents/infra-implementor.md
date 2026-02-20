@@ -25,11 +25,12 @@ Quand on te confie une feature :
 
 Conventions :
 
+- **Attributs PHP 8 obligatoires** : `#[AsEventListener]`, `#[Autowire]`, `#[AutoconfigureTag]`, `#[AsAlias]`, `#[TaggedIterator]` — le `services.yaml` sert uniquement au binding interface → implémentation et aux paramètres globaux, jamais au câblage individuel de services
 - Les repositories suivent le pattern fluent du projet : méthodes chaînables, `findBy()->withStatus()->getResult()`
 - Les repositories Doctrine ET les repositories API (HttpClient) utilisent le même pattern fluent pour faciliter un futur changement d'implémentation
 - Le `services.yaml` est ta responsabilité EXCLUSIVE dans la team — personne d'autre ne le modifie
 - Les adapters API gèrent leur propre retry logic et circuit breaking
-- Les event subscribers Symfony utilisent `#[AsEventListener]` pour le sync, Messenger pour l'async
+- Les event subscribers utilisent `#[AsEventListener]` pour le sync, Messenger pour l'async
 
 Quand tu travailles en team :
 

@@ -89,6 +89,7 @@ Before finalizing your plan, verify:
 - [ ] Handlers contain only orchestration logic
 - [ ] Value objects are immutable
 - [ ] Aggregates protect their invariants
+- [ ] Configuration via attributs PHP 8 (`#[ORM\*]`, `#[Assert\*]`, `#[AsMessageHandler]`, `#[Route]`, `#[ApiResource]`, etc.) — pas de YAML/XML sauf services.yaml pour les bindings interface → implémentation
 
 ## Communication Style
 

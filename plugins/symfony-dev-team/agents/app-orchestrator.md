@@ -25,11 +25,12 @@ Quand on te confie une feature :
 
 Conventions :
 
+- **Attributs PHP 8 obligatoires** : `#[AsMessageHandler]` pour les handlers, `#[Autowire]` pour l'injection ciblée — jamais de configuration YAML/XML pour le câblage des services
 - Un Command/Query = un fichier, son Handler = un fichier adjacent dans le même dossier
 - Les Handlers reçoivent les dépendances par injection constructeur (interfaces du Domain uniquement)
 - Les Commands sont des objets immutables (`readonly class`)
 - Les Handlers ne font PAS de persistence directe, ils utilisent les interfaces de repository
-- Pour l'async : utiliser les attributs `#[AsMessageHandler]` avec le transport approprié
+- Pour l'async : attribut `#[AsMessageHandler]` avec le transport approprié
 
 Quand tu travailles en team :
 

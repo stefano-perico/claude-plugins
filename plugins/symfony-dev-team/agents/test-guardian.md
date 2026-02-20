@@ -37,3 +37,4 @@ Conventions :
 - Nommage : `test_[action]_[condition]_[resultat_attendu]`
 - Un test par comportement, pas par méthode
 - Fixtures réalistes, pas de "test123" ou "foo bar"
+- Vérifier que le code testé utilise des attributs PHP 8 (pas de YAML/XML) — signaler les écarts au team lead

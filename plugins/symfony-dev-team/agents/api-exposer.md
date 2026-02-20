@@ -25,8 +25,9 @@ Quand on te confie une feature :
 
 Conventions :
 
+- **Attributs PHP 8 obligatoires** : `#[ApiResource]`, `#[Get]`, `#[GetCollection]`, `#[Post]`, `#[Patch]`, `#[Delete]`, `#[ApiFilter]`, `#[Groups]`, `#[Assert\*]` — jamais de YAML/XML pour la config ApiPlatform
 - Resources séparées des entités Doctrine (standalone Resource classes)
-- Opérations explicites par attribut : `#[Get]`, `#[GetCollection]`, `#[Post]`, `#[Patch]`, `#[Delete]`
+- Opérations explicites par attribut
 - Les Providers/Processors ne font AUCUNE logique métier — ils transforment la requête en Command/Query et retournent la réponse
 - Utiliser les DTO d'input quand le payload diffère de la Resource
 
