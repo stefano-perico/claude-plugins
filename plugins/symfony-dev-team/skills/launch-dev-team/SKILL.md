@@ -1,12 +1,12 @@
 ---
 name: launch-dev-team
-description: "Orchestrate the launch of a Symfony feature development Agent Team with 5 specialized agents (domain-architect, app-orchestrator, infra-implementor, test-guardian, api-exposer) following hexagonal architecture and CQRS patterns. Use when developing a new Symfony feature as a team, when the user says 'lance une team dev', 'développe cette feature en team', '/launch-dev-team', or wants to build a feature with multiple coordinated agents."
+description: "Orchestrate the launch of a Symfony feature development Agent Team with 5-6 specialized agents (domain-architect, app-orchestrator, infra-implementor, test-guardian, api-exposer, and optionally bundle-architect for Symfony bundles) following hexagonal architecture and CQRS patterns. Use when developing a new Symfony feature as a team, when the user says 'lance une team dev', 'développe cette feature en team', '/launch-dev-team', or wants to build a feature with multiple coordinated agents."
 user_invocable: true
 ---
 
 # Launch Dev Team
 
-Orchestrate a 3-phase interactive flow to launch a Symfony feature development team.
+Orchestrate a 3-phase interactive flow to launch a Symfony feature development team. Optionally includes a `bundle-architect` agent when the feature is un bundle Symfony réutilisable.
 
 ## Process Overview
 
@@ -24,6 +24,19 @@ After the response, reformulate in 3-5 lines covering:
 - Main interactions (API, events, external services)
 
 Confirm understanding with `AskUserQuestion`: "Ma compréhension est-elle correcte ?" (Oui / Non, je précise)
+
+### Détection Bundle
+
+Après confirmation du cadrage, évalue si la feature implique un bundle Symfony. **Activer `bundle-architect` si** :
+- L'utilisateur mentionne explicitement "bundle"
+- La feature est un composant réutilisable à distribuer / partager entre projets
+- La feature nécessite une configuration sémantique (TreeBuilder), un Extension ou des CompilerPass
+
+**Ne PAS activer si** : la feature est du code applicatif standard dans un projet Symfony existant.
+
+Si le besoin de bundle n'est pas clair, poser la question via `AskUserQuestion` : "Cette feature nécessite-t-elle la création d'un bundle Symfony réutilisable ?" (Oui — bundle réutilisable / Non — code applicatif standard)
+
+Mémoriser le choix (`bundle_mode = true/false`) pour la Phase 3.
 
 ## Phase 2 — Approche
 
@@ -65,6 +78,7 @@ Read [references/team-composition.md](references/team-composition.md) for detail
 
 ### Quick reference — Dependency chain
 
+**Standard (sans bundle)** :
 ```
 domain-architect (first)
     ├── app-orchestrator (after Domain)
@@ -73,11 +87,23 @@ domain-architect (first)
             └── api-exposer (after Application)
 ```
 
+**Avec bundle** (`bundle_mode = true`) :
+```
+bundle-architect (first — Task 0)
+    └── domain-architect (after Bundle)
+        ├── app-orchestrator (after Domain)
+        ├── infra-implementor (after Domain, parallel with app-orchestrator)
+        └── test-guardian (after Domain, continuous validation)
+                └── api-exposer (after Application)
+```
+
 ### Execution Steps
 
 1. `TeamCreate` with descriptive name (e.g., `dev-feature-{feature-name}`)
-2. `TaskCreate` x 5 — with `blockedBy` dependencies (see references)
-3. Launch `domain-architect` via `Task` with `team_name`, `mode: "bypassPermissions"`, `subagent_type: "domain-architect"`
+2. **Si `bundle_mode`** : `TaskCreate` x 6 — Task 0 (bundle-architect) + Tasks 1-5 avec `blockedBy` ajusté (Task 1 blockedBy Task 0)
+   **Sinon** : `TaskCreate` x 5 — Tasks 1-5 standard (see references)
+3. **Si `bundle_mode`** : Launch `bundle-architect` via `Task` en premier. Quand il complète, checkpoint utilisateur, puis lancer `domain-architect` avec le namespace/structure du bundle.
+   **Sinon** : Launch `domain-architect` directement.
 4. When domain-architect completes → launch `app-orchestrator`, `infra-implementor`, `test-guardian` in parallel
 5. Pass domain interfaces/contracts to downstream agents via their prompts
 6. When app-orchestrator completes → launch `api-exposer`
@@ -88,6 +114,7 @@ domain-architect (first)
 
 Ask confirmation at key milestones:
 
+- **After Bundle** (si `bundle_mode`) — `AskUserQuestion`: "La structure du bundle est posée. On lance le Domain ?" (Oui / Je review d'abord)
 - **After Domain** — `AskUserQuestion`: "Le Domain est posé. On lance Application + Infrastructure + Tests ?" (Oui / Je review d'abord)
 - **After Application** — `AskUserQuestion`: "La couche Application est prête. On lance l'exposition API ?" (Oui / Je review d'abord)
 
@@ -101,7 +128,8 @@ Ask confirmation at key milestones:
 
 ## Critical Invariants
 
-- **Domain first**: NO agent starts before `domain-architect` completes
+- **Bundle first (si activé)**: Si `bundle_mode`, NO agent starts before `bundle-architect` completes
+- **Domain first**: NO agent starts before `domain-architect` completes (sauf `bundle-architect`)
 - **Application before API**: `api-exposer` MUST NOT start before `app-orchestrator` completes
 - **Regression = STOP**: If `test-guardian` reports failure → `SendMessage` to responsible agent with file, line, error. Agent MUST fix before continuing.
 - **services.yaml**: Modified ONLY by `infra-implementor`

@@ -11,15 +11,48 @@
 
 ## Agents
 
-| Agent | subagent_type | Role | Starts when |
-|-------|--------------|------|-------------|
-| domain-architect | `domain-architect` | Entities, VOs, events, ports, exceptions in `src/Domain/` | Immediately |
-| app-orchestrator | `app-orchestrator` | Commands, Queries, Handlers, DTOs in `src/Application/` | After Domain done |
-| infra-implementor | `infra-implementor` | Doctrine repos, adapters, services.yaml in `src/Infrastructure/` | After Domain done (parallel with app-orchestrator) |
-| test-guardian | `test-guardian` | Unit/integration/functional tests + PHPUnit/PHPStan validation | After Domain done (continuous) |
-| api-exposer | `api-exposer` | ApiPlatform Resources, Providers, Processors | After Application done |
+| Agent | subagent_type | Role | Starts when | Conditionnel |
+|-------|--------------|------|-------------|--------------|
+| bundle-architect | `bundle-architect` | Bundle skeleton, DependencyInjection, Configuration, CompilerPass | Immediately (si `bundle_mode`) | Oui |
+| domain-architect | `domain-architect` | Entities, VOs, events, ports, exceptions in `src/Domain/` | Immediately (ou after Bundle si `bundle_mode`) | Non |
+| app-orchestrator | `app-orchestrator` | Commands, Queries, Handlers, DTOs in `src/Application/` | After Domain done | Non |
+| infra-implementor | `infra-implementor` | Doctrine repos, adapters, services.yaml in `src/Infrastructure/` | After Domain done (parallel with app-orchestrator) | Non |
+| test-guardian | `test-guardian` | Unit/integration/functional tests + PHPUnit/PHPStan validation | After Domain done (continuous) | Non |
+| api-exposer | `api-exposer` | ApiPlatform Resources, Providers, Processors | After Application done | Non |
 
 ## Task Setup
+
+### Avec bundle (`bundle_mode = true`)
+
+Create 6 tasks with these exact dependencies:
+
+```
+Task 0: "Créer la structure du bundle [BundleName]"
+  → blockedBy: none
+  → owner: bundle-architect
+
+Task 1: "Modéliser le Domain de [feature]"
+  → blockedBy: [Task 0]
+  → owner: domain-architect
+
+Task 2: "Câbler la couche Application CQRS de [feature]"
+  → blockedBy: [Task 1]
+  → owner: app-orchestrator
+
+Task 3: "Implémenter l'Infrastructure de [feature]"
+  → blockedBy: [Task 1]
+  → owner: infra-implementor
+
+Task 4: "Écrire les tests et valider en continu [feature]"
+  → blockedBy: [Task 1]
+  → owner: test-guardian
+
+Task 5: "Exposer l'API de [feature]"
+  → blockedBy: [Task 2]
+  → owner: api-exposer
+```
+
+### Sans bundle (standard)
 
 Create 5 tasks with these exact dependencies:
 
@@ -63,8 +96,32 @@ Task(
 
 ## Prompt Templates
 
+### bundle-architect (conditionnel — uniquement si `bundle_mode = true`)
+
+```
+Feature: [description]
+Nom du bundle: [BundleName]
+[Spec or plan if produced in Phase 2]
+
+Crée la structure du bundle Symfony :
+- Classe Bundle (AbstractBundle si Symfony 6.1+, sinon Bundle classique)
+- DependencyInjection/ : Extension + Configuration (TreeBuilder)
+- CompilerPass si nécessaire (tagged services, conditional wiring)
+- Resources/config/services.yaml pour les services internes du bundle
+- Répertoires vides Domain/, Application/, Infrastructure/ — les agents spécialisés les rempliront
+
+Détecte la version de Symfony du projet (composer.json) pour choisir le bon pattern.
+Préfixe tous les services et paramètres avec le nom du bundle en snake_case.
+
+Quand tu as terminé, marque ta task comme completed et communique :
+- Le namespace complet du bundle
+- Le chemin racine (ex: src/MyFeatureBundle/)
+- La structure des répertoires créés
+```
+
 ### domain-architect
 
+**Sans bundle** :
 ```
 Feature: [description]
 [Spec or plan if produced in Phase 2]
@@ -78,6 +135,14 @@ Modélise le Domain pour cette feature :
 
 Conventions : entités Doctrine dans le Domain (annotations ORM acceptées — choix projet).
 Quand tu as terminé, marque ta task comme completed.
+```
+
+**Avec bundle** (ajouter au prompt) :
+```
+Structure du bundle (créée par bundle-architect) :
+[paste namespace, root path, and directory structure from bundle-architect]
+
+Travaille DANS le namespace du bundle. Place le Domain sous [BundleRootPath]/Domain/.
 ```
 
 ### app-orchestrator
@@ -183,7 +248,9 @@ After ALL agents complete:
 
 ## Coordination Rules
 
-- **services.yaml**: Modified ONLY by `infra-implementor`
+- **services.yaml applicatif global**: Modified ONLY by `infra-implementor`
+- **services.yaml du bundle** (Resources/config/): Modified ONLY by `bundle-architect` lors de la création, puis par `infra-implementor` pour les ajouts de services
+- **Bundle structure**: Si `bundle_mode`, `bundle-architect` pose la structure. Les autres agents travaillent DANS le namespace du bundle.
 - **Interface changes**: If `domain-architect` modifies an interface after downstream agents started, team lead MUST immediately notify ALL dependent agents via `SendMessage`
 - **Regressions**: When `test-guardian` reports a failure, team lead forwards to the responsible agent with file, line, error detail. Agent MUST fix before continuing.
 - **Completion**: ALL agents must finish AND all tests must pass before returning control to user
