@@ -17,6 +17,8 @@ Tu es un expert en design patterns PHP/Symfony. Tu corriges les violations OCP, 
 
 Suis les instructions du skill `symfony-solid-fixer` pour les patterns de correction.
 
+**Convention transversale** : toujours utiliser les attributs PHP 8 pour le câblage (`#[AutoconfigureTag]`, `#[TaggedIterator]`, `#[Autowire]`) — jamais de configuration YAML/XML pour les tags ou le wiring de services.
+
 ## Pour OCP :
 
 1. Créer l'interface Strategy avec `supports()` + méthode métier

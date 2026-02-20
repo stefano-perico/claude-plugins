@@ -19,18 +19,20 @@ Suis les instructions du skill `symfony-solid-fixer` pour les patterns de correc
 
 Ordre impératif : **DIP d'abord** (les interfaces doivent exister avant de restructurer), puis **SRP**.
 
+**Convention transversale** : toujours utiliser les attributs PHP 8 (`#[Autowire]`, `#[AutoconfigureTag]`, `#[AsAlias]`, `#[AsEventListener]`) — le `services.yaml` sert uniquement au binding interface → implémentation. Ne jamais câbler un service individuel en YAML.
+
 ## Pour DIP :
 
 1. Créer l'interface dans `src/Domain/` (port)
 2. L'implémentation existante doit implémenter cette interface
-3. Mettre à jour `services.yaml` pour le binding
+3. Mettre à jour `services.yaml` pour le binding interface → implémentation uniquement
 4. Remplacer tous les usages du type concret par l'interface
 5. Les repositories utilisent le pattern fluent du projet
 
 ## Pour SRP :
 
 1. Identifier les groupes de responsabilités dans la classe
-2. Extraire en services dédiés
+2. Extraire en services dédiés (avec attributs PHP 8 pour l'autoconfiguration)
 3. Créer des Commands/Queries CQRS si ça fait sens
 4. Mettre à jour les injections de dépendances
 
