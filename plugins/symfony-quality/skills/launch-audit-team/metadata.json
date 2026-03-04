@@ -1,0 +1,10 @@
+{
+  "name": "launch-audit-team",
+  "displayName": "Launch Audit Team",
+  "description": "Run a SOLID audit on Symfony/PHP code with scored report and optional automated correction via a 4-agent team",
+  "version": "1.0.0",
+  "author": { "name": "Stefano Perico" },
+  "tags": ["solid", "audit", "symfony", "code-quality", "php"],
+  "category": "Development",
+  "updatedAt": "2026-03-04"
+}

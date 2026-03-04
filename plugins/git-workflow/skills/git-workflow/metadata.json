@@ -1,0 +1,10 @@
+{
+  "name": "git-workflow",
+  "displayName": "Git Workflow",
+  "description": "Standardize Git workflows with Conventional Commits, branch naming conventions, PRs, and changelog generation",
+  "version": "1.0.0",
+  "author": { "name": "Stefano Perico" },
+  "tags": ["git", "conventional-commits", "pull-request", "changelog", "branching"],
+  "category": "Productivity",
+  "updatedAt": "2026-03-04"
+}

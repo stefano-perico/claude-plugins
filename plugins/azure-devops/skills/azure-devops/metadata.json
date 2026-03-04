@@ -1,0 +1,10 @@
+{
+  "name": "azure-devops",
+  "displayName": "Azure DevOps",
+  "description": "Manage Azure DevOps work items (Epics, User Stories, Tasks) via the az CLI with query, create, and update support",
+  "version": "1.0.0",
+  "author": { "name": "Stefano Perico" },
+  "tags": ["azure-devops", "work-items", "agile", "sprint", "project-management"],
+  "category": "Productivity",
+  "updatedAt": "2026-03-04"
+}
